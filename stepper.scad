@@ -192,7 +192,7 @@ function motorWidth(model=Nema23) = lookup(NemaSideSize, model);
 function motorLength(model=Nema23, size=NemaMedium) = lookup(size, model);
 
 
-module motor(model=Nema23, size=NemaMedium, dualAxis=false, pos=[0,0,0], orientation = [0,0,0]) {
+module motor(model=Nema23, size=NemaMedium, dualAxis=false, pos=[0,0,0], orientation = [0,0,0], motorMount = false) {
 
   length = lookup(size, model);
 
@@ -259,7 +259,7 @@ module motor(model=Nema23, size=NemaMedium, dualAxis=false, pos=[0,0,0], orienta
 
           // Bolt holes
           color(stepperAluminum, $fs=holeRadius/8) {
-            translate([mid+holeDist,mid+holeDist,-1*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
+            #translate([mid+holeDist,mid+holeDist,-1*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
             translate([mid-holeDist,mid+holeDist,-1*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
             translate([mid+holeDist,mid-holeDist,-1*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
             translate([mid-holeDist,mid-holeDist,-1*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
@@ -277,7 +277,16 @@ module motor(model=Nema23, size=NemaMedium, dualAxis=false, pos=[0,0,0], orienta
           }
 
         }
+        if(motorMount){
+          translate([-mid, -mid, 0]) 
+          color(stepperAluminum, $fs=holeRadius/8) {
+            translate([mid+holeDist,mid+holeDist,-5*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
+            translate([mid-holeDist,mid+holeDist,-5*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
+            translate([mid+holeDist,mid-holeDist,-5*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
+            translate([mid-holeDist,mid-holeDist,-5*mm]) cylinder(h=holeDepth+1*mm, r=holeRadius);
 
+          } 
+        }
       // Axle
       translate([0, 0, extrSize-axleLengthFront]) color(stepperAluminum) 
         difference() {
